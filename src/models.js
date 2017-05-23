@@ -1,9 +1,13 @@
 'use strict';
 
 const deref = require('json-schema-deref-sync');
+//const console = require('console');
 
 module.exports = {
   createCfModel: function createCfModel(model) {
+    let derefschema = deref(model.schema || {}, {'failOnMissing':true, 'baseFolder':process.cwd()+'/schemas'})
+    //console.log(JSON.stringify(derefschema, null, 2));
+    //console.log(process.cwd()+"/schemas")
     return {
       Type: 'AWS::ApiGateway::Model',
       Properties: {
@@ -12,7 +16,7 @@ module.exports = {
         },
         ContentType: model.contentType,
         Name: model.name,
-        Schema: deref(model.schema || {}),
+        Schema: derefschema,
       },
     };
   },
