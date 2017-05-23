@@ -1,5 +1,7 @@
 'use strict';
 
+const deref = require('json-schema-deref-sync');
+
 module.exports = {
   createCfModel: function createCfModel(model) {
     return {
@@ -10,7 +12,7 @@ module.exports = {
         },
         ContentType: model.contentType,
         Name: model.name,
-        Schema: model.schema || {},
+        Schema: deref(model.schema || {}),
       },
     };
   },
